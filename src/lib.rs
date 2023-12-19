@@ -1,5 +1,4 @@
-#![no_std]
-use gstd::{msg, prelude::*, debug};
+
 /*
 #[no_mangle]
 extern "C" fn handle() {
@@ -14,7 +13,21 @@ extern "C" fn init() {
     debug!("Program was initialized with message {:?}", init_message);
 }*/
 
+
+mod messages;
+use messages::InputMessages;
+#![no_std]
+use gstd::{msg, debug};
+
+use crate::InputMessages;
+
 static mut GREETING: Option<String> = None;
+
+#[derive(Encode, Decode, TypeInfo)]
+pub enum InputMessages {
+    SendHelloTo(ActorId),
+    SendHelloReply,
+}
 
 #[no_mangle]
 extern "C" fn handle() {
@@ -38,4 +51,3 @@ extern "C" fn handle() {
         }
     }
 }
-
